@@ -16,4 +16,4 @@ end
 
 default[:swift][:repository][:url] = "http://github.com/openstack/swift.git"
 #default[:swift][:repository][:url] = "lp:swift" # For bzr checkouts
-default[:swift][:repository][:tag] = "1.0.2"
+default[:swift][:repository][:tag] = "1.7.6"
