@@ -44,6 +44,12 @@ cookbook_file "/etc/default/rsync" do
   source "default-rsync"
 end
 
+template "/etc/swift/swift.conf" do
+  source "swift.conf.erb"
+  owner "swift"
+  group "swift"
+end
+
 directory "/etc/swift" do
   owner "swift"
   group "swift"
@@ -87,5 +93,5 @@ if(node[:rings])
   end
 end
 
-include_recipe "swift::auth-server"
+# include_recipe "swift::auth-server"
 include_recipe "swift::proxy-server"
