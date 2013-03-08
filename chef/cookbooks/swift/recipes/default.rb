@@ -67,6 +67,7 @@ service "rsync" do
 end
 
 include_recipe "swift::install"
+include_recipe "swift::rsyslogd"
 include_recipe "swift::demo_device"
 
 ["object-server","account-server","container-server"].each do |server|
