@@ -19,6 +19,13 @@ end
 
 user "swift" do
   manage_home true
+  shell "/bin/bash"
+end
+
+
+file "/etc/sudoers.d/swift" do
+    content "vagrant ALL = (swift) NOPASSWD: ALL"
+    mode 0440
 end
 
 directory "/home/swift" do
@@ -33,6 +40,28 @@ directory "/var/run/swift" do
   mode 0755
 end
 
+directory "/var/cache/swift/" do
+  owner "swift"
+  group "swift"
+  recursive true
+end
+
+directory "/etc/swift" do
+  owner "swift"
+  group "swift"
+end
+
+template "/etc/swift/swift.conf" do
+  source "swift.conf.erb"
+  owner "swift"
+  group "swift"
+end
+
+directory "/etc/swift/backups" do
+  owner "swift"
+  group "swift"
+end
+
 template "/etc/rsyncd.conf" do
   source "rsyncd.conf.erb"
   variables(
@@ -44,20 +73,8 @@ cookbook_file "/etc/default/rsync" do
   source "default-rsync"
 end
 
-template "/etc/swift/swift.conf" do
-  source "swift.conf.erb"
-  owner "swift"
-  group "swift"
-end
-
-directory "/etc/swift" do
-  owner "swift"
-  group "swift"
-end
-
-directory "/etc/swift/backups" do
-  owner "swift"
-  group "swift"
+cookbook_file "/home/swift/.swiftrc" do
+  source "swiftrc"
 end
 
 service "rsync" do
