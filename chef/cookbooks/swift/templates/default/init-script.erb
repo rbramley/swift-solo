@@ -34,7 +34,7 @@ case "$1" in
 	;;
   stop)
 	RESP=$(sudo -u swift /usr/local/bin/swift-init $DESC stop)
-	if [[ $RESP =~ "Stopping" ]]; then
+	if [[ $RESP =~ "appears to have stopped" ]]; then
 		echo "Stopping swift $DESC"
 		exit 0
 	elif [[ $RESP =~ "No $DESC running" ]]; then

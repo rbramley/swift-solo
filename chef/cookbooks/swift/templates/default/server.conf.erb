@@ -1,8 +1,20 @@
-[<%= @type %>-server]
+[DEFAULT]
 devices = <%= @devices %>
 mount_check = false
 bind_port = <%= @port %>
 user = <%= @username %>
+
+[pipeline:main]
+pipeline = healthcheck recon <%= @type %>-server
+
+[app:<%= @type %>-server]
+use = egg:swift#<%= @type %>
+
+[filter:healthcheck]
+use = egg:swift#healthcheck
+
+[filter:recon]
+use = egg:swift#recon
 
 [<%= @type %>-replicator]
 vm_test_mode = yes
