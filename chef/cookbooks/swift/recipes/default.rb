@@ -111,5 +111,17 @@ if(node[:rings])
   end
 end
 
-# include_recipe "swift::auth-server"
+#include_recipe "swift::auth-server"
 include_recipe "swift::proxy-server"
+
+template "/etc/init.d/swift-main-services" do
+    source "init-script.erb"
+    mode 0755
+    variables(:server => "main")
+end
+
+service "swift-main-services" do
+    supports :stop => true, :start => true, :status => true
+    action [:start, :enable]
+    subscribes :restart, resources(:template => "/etc/swift/proxy-server.conf")
+end

@@ -6,6 +6,7 @@
 #
 
 include_recipe "swift::account-server"
+include_recipe "swift::ssl-certificates"
 
 template "/etc/swift/proxy-server.conf" do
   source "proxy-server.conf.erb"
@@ -14,15 +15,4 @@ template "/etc/swift/proxy-server.conf" do
   variables(
     :use_ssl => node[:swift][:auth_server][:use_ssl]
   )
-end
-
-template "/etc/init.d/swift-proxy-server" do
-  source "init-script.erb"
-  mode 0755
-  variables(:server => "proxy-server")
-end
-
-service "swift-proxy-server" do
-  action [:start, :enable]
-  subscribes :restart, resources(:template => "/etc/swift/proxy-server.conf")
 end

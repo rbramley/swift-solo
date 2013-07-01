@@ -1,15 +1,14 @@
-[proxy-server]
-bind_port = 8080
-user = swift
-log_facility = LOG_LOCAL1
-
+[DEFAULT]
 <% if @use_ssl %>
 cert_file = /etc/swift/cert.pem
 key_file = /etc/swift/key.pem
-
-[auth-server]
-ssl = true
+bind_port = 8443
+<% else %>
+bind_port = 8080
 <% end %>
+workers = 8
+user = swift
+log_facility = LOG_LOCAL1
 
 [pipeline:main]
 pipeline = healthcheck cache tempauth proxy-logging proxy-server

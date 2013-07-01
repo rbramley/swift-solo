@@ -17,16 +17,3 @@ template "/etc/swift/auth-server.conf" do
     :hostname => node[:swift][:proxy_server][:hostname]
   )
 end
-  
-template "/etc/init.d/swift-auth-server" do
-  source "init-script.erb"
-  mode 0755
-  variables(:server => "auth-server")
-  backup false
-end
-
-service "swift-auth-server" do
-  action [:start, :enable]
-  subscribes :restart, resources(:template => "/etc/swift/auth-server.conf")
-end
-

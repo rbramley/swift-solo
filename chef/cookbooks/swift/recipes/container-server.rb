@@ -19,16 +19,3 @@
 
   end
 end
-
-["container-updater","container-replicator","container-auditor"].each do |s|
-  template "/etc/init.d/swift-#{s}" do
-    source "init-script.erb"
-    mode 0755
-    variables(:server => s)
-  end
-
-  service "swift-#{s}" do
-    action [ :start, :enable ]
-  end
-end
-
